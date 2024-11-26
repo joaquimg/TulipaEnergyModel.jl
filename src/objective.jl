@@ -76,6 +76,7 @@ function add_objective!(model, graph, dataframes, representative_periods, sets, 
                 graph[a].investment_cost_storage_energy[y] *
                 graph[a].capacity_storage_energy *
                 assets_investment_energy[y, a] for y in sets.Y for a in sets.Ase[y] ∩ sets.Ai[y]
+                # TODO? for a in if a in...
             )
         )
 
@@ -122,6 +123,7 @@ function add_objective!(model, graph, dataframes, representative_periods, sets, 
                 row.flow for row in eachrow(dataframes[:flows])
             )
         )
+        # faster getindex   first try with add_to...
 
         units_on_cost = @expression(
             model,
@@ -148,5 +150,6 @@ function add_objective!(model, graph, dataframes, representative_periods, sets, 
             flows_variable_cost +
             units_on_cost
         )
+        # TODO? buill all at inces
     end
 end

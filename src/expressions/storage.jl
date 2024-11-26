@@ -11,7 +11,7 @@ function add_storage_expressions!(model, graph, sets)
             model,
             accumulated_energy_units_simple_method[
                 y ∈ sets.Y,
-                a ∈ sets.Ase[y]∩sets.decommissionable_assets_using_simple_method,
+                a ∈ sets.Ase[y] ∩ sets.decommissionable_assets_using_simple_method, # TODO use if
             ],
             sum(values(graph[a].initial_storage_units[y])) + sum(
                 assets_investment_energy[yy, a] for yy in sets.Y if
@@ -22,6 +22,7 @@ function add_storage_expressions!(model, graph, sets)
                 a ∈ sets.Ase[yy] && sets.starting_year_using_simple_method[(y, a)] ≤ yy ≤ y
             )
         )
+        # TODO? move if outside
         @expression(
             model,
             accumulated_energy_capacity[y ∈ sets.Y, a ∈ sets.As],

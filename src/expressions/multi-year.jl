@@ -22,8 +22,9 @@ function create_multi_year_expressions!(model, graph, sets)
             ],
             sum(
                 assets_investment[yy, a] for
-                yy in sets.Y if a ∈ sets.investable_assets_using_simple_method[yy] &&
-                sets.starting_year_using_simple_method[(y, a)] ≤ yy ≤ y
+                yy in sets.Y if
+                sets.starting_year_using_simple_method[(y, a)] ≤ yy ≤ y &&
+                a ∈ sets.investable_assets_using_simple_method[yy]
             )
         )
         @expression(
@@ -116,8 +117,9 @@ function create_multi_year_expressions!(model, graph, sets)
                 (u, v) ∈ sets.Ft,
             ],
             sum(
-                flows_investment[yy, (u, v)] for yy in sets.Y if (u, v) ∈ sets.Fi[yy] &&
-                sets.starting_year_flows_using_simple_method[(y, (u, v))] ≤ yy ≤ y
+                flows_investment[yy, (u, v)] for yy in sets.Y if
+                sets.starting_year_flows_using_simple_method[(y, (u, v))] ≤ yy ≤ y &&
+                (u, v) ∈ sets.Fi[yy]
             )
         )
         @expression(

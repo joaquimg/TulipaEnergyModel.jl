@@ -263,7 +263,8 @@ function add_capacity_constraints!(
             assets_profile_times_capacity_out_with_binary_part1[row.index],
             base_name = "max_output_flows_limit_with_binary_part1[$(row.asset),$(row.rep_period),$(row.timesteps_block)]"
         ) for row in eachrow(dataframes[:highest_out]) if
-        row.asset ∈ Asb[row.year] && outgoing_flow_highest_out_resolution[row.index] != 0
+        outgoing_flow_highest_out_resolution[row.index] != 0 &&
+        row.asset ∈ Asb[row.year]
     ]
 
     model[:max_output_flows_limit_with_binary_part2] = [
@@ -272,9 +273,10 @@ function add_capacity_constraints!(
             outgoing_flow_highest_out_resolution[row.index] ≤
             assets_profile_times_capacity_out_with_binary_part2[row.index],
             base_name = "max_output_flows_limit_with_binary_part2[$(row.asset),$(row.rep_period),$(row.timesteps_block)]"
-        ) for row in eachrow(dataframes[:highest_out]) if row.asset ∈ Ai[row.year] &&
-        row.asset ∈ Asb[row.year] &&
-        outgoing_flow_highest_out_resolution[row.index] != 0
+        ) for row in eachrow(dataframes[:highest_out]) if
+        outgoing_flow_highest_out_resolution[row.index] != 0 &&
+        row.asset ∈ Ai[row.year] &&
+        row.asset ∈ Asb[row.year]
     ]
 
     # - Maximum input flows limit with is_charging binary for storage assets
@@ -285,7 +287,8 @@ function add_capacity_constraints!(
             assets_profile_times_capacity_in_with_binary_part1[row.index],
             base_name = "max_input_flows_limit_with_binary_part1[$(row.asset),$(row.rep_period),$(row.timesteps_block)]"
         ) for row in eachrow(dataframes[:highest_in]) if
-        row.asset ∈ Asb[row.year] && incoming_flow_highest_in_resolution[row.index] != 0
+        incoming_flow_highest_in_resolution[row.index] != 0 &&
+        row.asset ∈ Asb[row.year]
     ]
     model[:max_input_flows_limit_with_binary_part2] = [
         @constraint(
@@ -293,9 +296,10 @@ function add_capacity_constraints!(
             incoming_flow_highest_in_resolution[row.index] ≤
             assets_profile_times_capacity_in_with_binary_part2[row.index],
             base_name = "max_input_flows_limit_with_binary_part2[$(row.asset),$(row.rep_period),$(row.timesteps_block)]"
-        ) for row in eachrow(dataframes[:highest_in]) if row.asset ∈ Ai[row.year] &&
-        row.asset ∈ Asb[row.year] &&
-        incoming_flow_highest_in_resolution[row.index] != 0
+        ) for row in eachrow(dataframes[:highest_in]) if
+        incoming_flow_highest_in_resolution[row.index] != 0 &&
+        row.asset ∈ Ai[row.year] &&
+        row.asset ∈ Asb[row.year]
     ]
 
     # - Lower limit for flows associated with assets

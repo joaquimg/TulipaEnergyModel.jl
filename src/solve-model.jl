@@ -168,7 +168,9 @@ function solve_model(
     parameters = default_parameters(optimizer),
 )
     # Set optimizer and its parameters
-    JuMP.set_optimizer(model, optimizer)
+    if optimizer !== nothing
+        JuMP.set_optimizer(model, optimizer)
+    end
     for (k, v) in parameters
         JuMP.set_attribute(model, k, v)
     end
