@@ -670,6 +670,7 @@ function create_sets(graph, years)
         Acv = filter_graph(graph, A, "conversion", :type)
         Ft = filter_graph(graph, F, true, :is_transport)
 
+        # review set usage in contains x in loop
         Y = [year.id for year in years if year.is_milestone]
         V_all = [year.id for year in years]
         V_non_milestone = [year.id for year in years if !year.is_milestone]

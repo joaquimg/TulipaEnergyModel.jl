@@ -54,6 +54,8 @@ function create_model(
     groups,
     model_parameters;
     write_lp_file = false,
+    disable_names = true,
+    base_model = nothing,
 )
     # Maximum timestep
     Tmax = maximum(last(rp.timesteps) for year in sets.Y for rp in representative_periods[year])
@@ -72,7 +74,17 @@ function create_model(
     end
 
     ## Model
-    model = JuMP.Model()
+    if base_model === nothing
+        model = JuMP.Model()
+    else
+        model = base_model
+    end
+
+    if disable_names
+        JuMP.set_string_names_on_creation(model, false)
+    else
+        JuMP.set_string_names_on_creation(model, true)
+    end
 
     ## Variables
     @timeit to "add_flow_variables!" add_flow_variables!(model, variables)

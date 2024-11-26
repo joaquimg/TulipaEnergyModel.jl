@@ -367,7 +367,6 @@ mutable struct EnergyProblem
     This will call relevant functions to generate all input that is required for the model creation.
     """
     function EnergyProblem(connection; model_parameters_file = "")
-        model = JuMP.Model()
 
         elapsed_time_internal = @elapsed begin
             graph, representative_periods, timeframe, groups, years =

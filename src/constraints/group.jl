@@ -23,7 +23,7 @@ function add_group_constraints!(model, graph, sets, assets_investment, groups)
         if group.invest_method
             sum(
                 graph[a].capacity * assets_investment[y, a] for y in Y for
-                (a, y) in assets_at_year_in_group[group]
+                (a, y) in assets_at_year_in_group[group] # weird as y is above
             )
         end
     )
